@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface UserService extends IService<User> {
     /**
      * 用户注册
-     * @param userCount 用户账号
+     * @param userAccount 用户账号
      * @param password 密码
      * @param checkPass 校验密码
      * @return 新用户ID
@@ -26,4 +26,5 @@ public interface UserService extends IService<User> {
      */
     User userLogin(String userAccount, String userPassword, HttpServletRequest req);
 
+    User safetyUser(User originUser);
 }

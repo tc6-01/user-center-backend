@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.beeran.backend.constant.UserConstant.USER_LOGIN_STATUS;
+
 
 /**
  * 用户服务实现类
@@ -26,7 +28,6 @@ import java.util.regex.Pattern;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
     private static final String SALT = "beeran";
-    private static final String USER_LOGIN_STATUS  = "user_login";
 
     @Resource
     private UserMapper userMapper;
@@ -120,21 +121,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return null;
         }
         // 3.用户脱敏
-        User safeUser = new User();
-        safeUser.setId(user.getId());
-        safeUser.setUsername(user.getUsername());
-        safeUser.set_account(user.get_account());
-        safeUser.setAvatar_url(user.getAvatar_url());
-        safeUser.setGender(user.getGender());
-        safeUser.setPhone(user.getPhone());
-        safeUser.setEmail(user.getEmail());
-        safeUser.set_status(user.get_status());
-        safeUser.setCreate_time(user.getCreate_time());
-
+        User safeUser = safetyUser(user);
         // 4.记录用户登录状态
         req.getSession().setAttribute(USER_LOGIN_STATUS, safeUser);
         return safeUser;
 
+    }
+
+    /**
+     * 用户脱敏
+     * @param originUser 未脱敏用户对象
+     * @return
+     */
+    @Override
+    public User safetyUser(User originUser){
+        User safeUser = new User();
+        safeUser.setId(originUser.getId());
+        safeUser.setUsername(originUser.getUsername());
+        safeUser.set_account(originUser.get_account());
+        safeUser.setAvatar_url(originUser.getAvatar_url());
+        safeUser.setGender(originUser.getGender());
+        safeUser.setPhone(originUser.getPhone());
+        safeUser.setEmail(originUser.getEmail());
+        safeUser.setRole(originUser.getRole());
+        safeUser.set_status(originUser.get_status());
+        safeUser.setCreate_time(originUser.getCreate_time());
+        return safeUser;
     }
 }
 

@@ -8,6 +8,8 @@ spring:
     url: jdbc:mysql://localhost:3306/beeran
     username: root
     password: 123456
+  session:
+    timeout: 86400 # 超时时间为一天
 
 mybatis-plus:
   configuration:

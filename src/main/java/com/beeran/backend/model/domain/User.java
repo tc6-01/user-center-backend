@@ -71,6 +71,14 @@ public class User implements Serializable {
     private Integer _status;
 
     /**
+     * 用户权限
+     * 0 -普通用户
+     * 1 -管理员
+     */
+    private Integer role;
+
+
+    /**
      * 是否删除
      */
     @TableLogic
